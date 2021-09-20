@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CheckAll from "./components/CheckAll";
+import EditTodo from "./components/EditTodo";
 import Form from "./components/Form";
 import Todo from "./components/Todo";
 
@@ -16,11 +17,21 @@ const App = () => {
     const newTodo = {
       id: currentId,
       text: text,
+      completed: false,
+      editing: false,
     };
     const newTodos = [...state.todos, newTodo];
     setState({ todos: newTodos });
     currentId++;
   };
+
+  const handleChangeAllCompleted = (completed) => {
+    const newTodos = state.todos.map(todo => ({
+      ...todo,
+      completed
+    }))
+    setState({todos: newTodos})
+  }
 
   const handleChangeCompleted = (id, completed) => {
     const newTodos = state.todos.map((todo) => {
@@ -35,17 +46,42 @@ const App = () => {
     setState({ todos: newTodos });
   };
 
-  const handleClickCompleted = () => {
-    const newTodos = state.todos.filter(({completed}) => !completed)
-    setState({todos:newTodos})
-  }
+  const handleClickDeleteCompleted = () => {
+    const newTodos = state.todos.filter(({ completed }) => !completed);
+    setState({ todos: newTodos });
+  };
 
-  const handleClickDelete = id => {
-    const newTodos = state.todos.filter(todo => 
-      todo.id !== id
-    )
-    setState({todos: newTodos})
-  }
+  const handleClickDelete = (id) => {
+    const newTodos = state.todos.filter((todo) => todo.id !== id);
+    setState({ todos: newTodos });
+  };
+
+  const handleChangeTodoAttribute = (id, key, value) => {
+    const newTodos = state.todos.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          [key]: value,
+        };
+      }
+      return todo;
+    });
+    setState({ todos: newTodos });
+  };
+
+  const handleUpdateTodoText = (id, text) => {
+    const newTodo = state.todos.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          text,
+          editing: false,
+        };
+      }
+      return todo;
+    });
+    setState({ todos: newTodo });
+  };
 
   return (
     <div>
@@ -54,6 +90,7 @@ const App = () => {
         allCompleted={
           todos.length > 0 && todos.every(({ completed }) => completed)
         }
+        onChange={handleChangeAllCompleted}
       />
 
       <select>
@@ -63,21 +100,30 @@ const App = () => {
       </select>
 
       <ul>
-        {state.todos.map(({ text, id, completed }) => {
+        {state.todos.map(({ text, id, completed, editing }) => {
           return (
             <li key={id}>
-              <Todo
-                id={id}
-                text={text}
-                complete={completed}
-                onChange={handleChangeCompleted}
-                onDelete={handleClickDelete}
-              />
+              {editing ? (
+                <EditTodo
+                  id={id}
+                  text={text}
+                  onCancel={handleChangeTodoAttribute}
+                  onSubmit={handleUpdateTodoText}
+                />
+              ) : (
+                <Todo
+                  id={id}
+                  text={text}
+                  complete={completed}
+                  onChange={handleChangeTodoAttribute}
+                  onDelete={handleClickDelete}
+                />
+              )}
             </li>
           );
         })}
       </ul>
-      <button onClick={handleClickCompleted} >完了済みを全て削除</button>
+      <button onClick={handleClickDeleteCompleted}>完了済みを全て削除</button>
     </div>
   );
 };

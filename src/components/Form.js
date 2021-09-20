@@ -7,7 +7,7 @@ const Form = (props) => {
   });
 
   function handleChange(e) {
-    setState({ ...state, input: e.target.value });
+    setState({...state, input: e.target.value });
   }
 
   const handleSubmit = (e) => {
