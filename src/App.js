@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CheckAll from "./components/CheckAll";
 import Form from "./components/Form";
 import Todo from "./components/Todo";
 
@@ -8,6 +9,7 @@ const App = () => {
   const [state, setState] = useState({
     todos: [],
   });
+  const { todos } = state;
   console.log(state);
 
   const handleSubmit = (text) => {
@@ -33,12 +35,19 @@ const App = () => {
     setState({ todos: newTodos });
   };
 
+  const handleClickCompleted = () => {
+    const newTodos = state.todos.filter(({completed}) => !completed)
+    setState({todos:newTodos})
+  }
+
   return (
     <div>
       <Form onSubmit={handleSubmit} />
-      <label>
-        <input type="checkbox"></input>
-      </label>
+      <CheckAll
+        allCompleted={
+          todos.length > 0 && todos.every(({ completed }) => completed)
+        }
+      />
 
       <select>
         <option>全て</option>
@@ -60,7 +69,7 @@ const App = () => {
           );
         })}
       </ul>
-      <button>完了済みを全て削除</button>
+      <button onClick={handleClickCompleted} >完了済みを全て削除</button>
     </div>
   );
 };
