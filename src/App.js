@@ -11,7 +11,7 @@ const App = () => {
     todos: [],
   });
   const { todos } = state;
-  console.log(state);
+  // console.log(state);
 
   const handleSubmit = (text) => {
     const newTodo = {
@@ -26,23 +26,10 @@ const App = () => {
   };
 
   const handleChangeAllCompleted = (completed) => {
-    const newTodos = state.todos.map(todo => ({
+    const newTodos = state.todos.map((todo) => ({
       ...todo,
-      completed
-    }))
-    setState({todos: newTodos})
-  }
-
-  const handleChangeCompleted = (id, completed) => {
-    const newTodos = state.todos.map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          completed,
-        };
-      }
-      return todo;
-    });
+      completed,
+    }));
     setState({ todos: newTodos });
   };
 
@@ -67,6 +54,7 @@ const App = () => {
       return todo;
     });
     setState({ todos: newTodos });
+    console.log({ newTodos });
   };
 
   const handleUpdateTodoText = (id, text) => {
@@ -74,7 +62,7 @@ const App = () => {
       if (todo.id === id) {
         return {
           ...todo,
-          text,
+          text: text,
           editing: false,
         };
       }
@@ -114,7 +102,7 @@ const App = () => {
                 <Todo
                   id={id}
                   text={text}
-                  complete={completed}
+                  completed={completed}
                   onChange={handleChangeTodoAttribute}
                   onDelete={handleClickDelete}
                 />

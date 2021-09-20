@@ -11,6 +11,7 @@ const Form = (props) => {
   }
 
   const handleSubmit = (e) => {
+    if(state.input === '') return;
     e.preventDefault();
     onSubmit(state.input);
     setState({ input: "" });

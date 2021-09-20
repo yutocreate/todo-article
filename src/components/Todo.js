@@ -5,11 +5,11 @@ const Todo = (props) => {
   
   const handleChangeCompleted = () => {
     const { onChange, id, completed } = props;
-    onChange(id, !completed);
+    onChange(id, "completed", !completed);
   };
   const handleClickEdit = () => {
     const {onChange, id, editing} = props
-    onChange(id,"editing", !editing)
+    onChange(id, "editing", !editing)
   }
   
   const handleClickDelete = () => {
