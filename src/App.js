@@ -20,7 +20,7 @@ const App = () => {
     currentId++;
   };
 
-  const handleChangecompleted = (id, completed) => {
+  const handleChangeCompleted = (id, completed) => {
     const newTodos = state.todos.map((todo) => {
       if (todo.id === id) {
         return {
@@ -30,7 +30,7 @@ const App = () => {
       }
       return todo;
     });
-    setState({ todo: newTodos });
+    setState({ todos: newTodos });
   };
 
   return (
@@ -54,7 +54,7 @@ const App = () => {
                 id={id}
                 text={text}
                 complete={completed}
-                onChange={handleChangecompleted}
+                onChange={handleChangeCompleted}
               />
             </li>
           );

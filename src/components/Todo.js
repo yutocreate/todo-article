@@ -3,7 +3,7 @@ import React from "react";
 const Todo = (props) => {
   const { text, completed } = props;
 
-  const hadleChangeCompleted = () => {
+  const handleChangeCompleted = () => {
     const { onChange, id, completed } = props;
     onChange(id, !completed);
   };
@@ -14,7 +14,7 @@ const Todo = (props) => {
         <input
           type="checkbox"
           checked={completed}
-          onChange={hadleChangeCompleted}
+          onChange={handleChangeCompleted}
         />
         {text}
       </label>
