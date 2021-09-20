@@ -8,6 +8,11 @@ const Todo = (props) => {
     onChange(id, !completed);
   };
 
+  const handleClickDelete = () => {
+    const {onDelete, id} = props
+    onDelete(id)
+  }
+
   return (
     <>
       <label>
@@ -19,7 +24,7 @@ const Todo = (props) => {
         {text}
       </label>
       <button>編集</button>
-      <button>削除</button>
+      <button onClick={handleClickDelete}>削除</button>
     </>
   );
 };

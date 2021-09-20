@@ -40,6 +40,13 @@ const App = () => {
     setState({todos:newTodos})
   }
 
+  const handleClickDelete = id => {
+    const newTodos = state.todos.filter(todo => 
+      todo.id !== id
+    )
+    setState({todos: newTodos})
+  }
+
   return (
     <div>
       <Form onSubmit={handleSubmit} />
@@ -64,6 +71,7 @@ const App = () => {
                 text={text}
                 complete={completed}
                 onChange={handleChangeCompleted}
+                onDelete={handleClickDelete}
               />
             </li>
           );
