@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CheckAll from "./components/CheckAll";
 import EditTodo from "./components/EditTodo";
+import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Todo from "./components/Todo";
 
@@ -10,8 +11,25 @@ const App = () => {
   const [state, setState] = useState({
     todos: [],
   });
+  const [filt, setFilt] = useState({ filter: "all" });
   const { todos } = state;
-  // console.log(state);
+  const { filter } = filt;
+  const filteredTodos = todos.filter(({ completed }) => {
+    switch (filter) {
+      case "all":
+        return true;
+      case "uncompleted":
+        return !completed;
+      case "completed":
+        return completed;
+      default:
+        return true;
+    }
+  });
+
+  const handleChangeFilter = (filter) => {
+    setFilt({ filter });
+  };
 
   const handleSubmit = (text) => {
     const newTodo = {
@@ -54,7 +72,6 @@ const App = () => {
       return todo;
     });
     setState({ todos: newTodos });
-    console.log({ newTodos });
   };
 
   const handleUpdateTodoText = (id, text) => {
@@ -80,15 +97,9 @@ const App = () => {
         }
         onChange={handleChangeAllCompleted}
       />
-
-      <select>
-        <option>全て</option>
-        <option>未完了</option>
-        <option>完了済み</option>
-      </select>
-
+      <Filter filter={filter} onChange={handleChangeFilter} />
       <ul>
-        {state.todos.map(({ text, id, completed, editing }) => {
+        {filteredTodos.map(({ text, id, completed, editing }) => {
           return (
             <li key={id}>
               {editing ? (
