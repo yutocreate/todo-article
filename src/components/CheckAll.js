@@ -1,10 +1,10 @@
 import React from "react";
 
 const CheckAll = (props) => {
-  const {allCompleted} = props;
+  const { allCompleted } = props;
 
   const handleChange = () => {
-    const {onChange, allCompleted} = props;
+    const { onChange, allCompleted } = props;
     onChange(!allCompleted);
   };
 
